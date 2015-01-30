@@ -7,7 +7,8 @@
 //
 
 #include <iostream>
-
+#include <string>
+#include <sstream>
 class TrieNode
 {
 public:
@@ -48,6 +49,31 @@ public:
     {
         if(_root)
             delete _root;
+    }
+    
+    bool insertString(std::string word)
+    {
+        TrieNode *prev_itr = _root;
+        TrieNode *node_itr = _root->child();
+
+        for(std::string::const_iterator itr = word.begin(); itr != word.end(); ++itr)
+        {
+            const char c = *itr;
+            while(node_itr)
+            {
+                if(node_itr->val() == c)
+                    break;
+                prev_itr = node_itr;
+                node_itr = node_itr->next();
+            }
+            if(!node_itr)
+            {
+                prev_itr->AddChild(new TrieNode(c,0));
+                node_itr = prev_itr->child();
+            }
+        }
+        
+        return false;
     }
     
     
